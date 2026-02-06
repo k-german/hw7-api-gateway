@@ -22,6 +22,11 @@ spring:
           uri: lb://notification-service
           predicates:
             - Path=/api/notifications/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: notificationServiceCB
+                fallbackUri: forward:/fallback/notifications
 
 eureka:
   client:
