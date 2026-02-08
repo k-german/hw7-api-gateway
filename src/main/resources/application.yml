@@ -5,12 +5,13 @@ spring:
   application:
     name: api-gateway
 
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
+  config:
+    import:
+      optional:configserver:
+
+    cloud:
+      config:
+        uri: http://config-server:8888
 
       routes:
         - id: user-service
@@ -31,6 +32,11 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://discovery-service:8761/eureka
     register-with-eureka: true
     fetch-registry: true
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG
